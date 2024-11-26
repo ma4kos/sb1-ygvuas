@@ -1,0 +1,81 @@
+---
+import Layout from '../layouts/Layout.astro';
+import DirectoryFilters from '../components/DirectoryFilters.astro';
+import ToolCard from '../components/ToolCard.astro';
+import { getAllTools } from '../lib/db';
+
+const tools = await getAllTools();
+const categories = [...new Set(tools.map(tool => tool.category))];
+const serializedTools = JSON.stringify(tools).replace(/</g, '\\u003c');
+---
+
+<Layout title="AI Tools Directory">
+  <div 
+    class="max-w-6xl mx-auto px-4 py-8" 
+    x-data="{
+      viewType: 'grid',
+      selectedCategories: [],
+      selectedPricing: [],
+      minRating: 0,
+      tools: JSON.parse($refs.toolsData.textContent),
+      get filteredTools() {
+        return this.tools.filter(tool => {
+          const categoryMatch = this.selectedCategories.length === 0 || 
+            this.selectedCategories.includes(tool.category);
+          const pricingMatch = this.selectedPricing.length === 0 || 
+            this.selectedPricing.some(p => tool.pricing.includes(p));
+          const ratingMatch = tool.rating >= this.minRating;
+          
+          return categoryMatch && pricingMatch && ratingMatch;
+        });
+      }
+    }"
+  >
+    <script x-ref="toolsData" type="application/json" set:html={serializedTools} />
+
+    <div class="mb-8">
+      <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold text-gray-900">AI Tools Directory</h1>
+        <div class="flex items-center space-x-2">
+          <button
+            @click="viewType = 'grid'"
+            :class="{ 'text-indigo-600': viewType === 'grid' }"
+            class="p-2 hover:text-indigo-600"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+            </svg>
+          </button>
+          <button
+            @click="viewType = 'list'"
+            :class="{ 'text-indigo-600': viewType === 'list' }"
+            class="p-2 hover:text-indigo-600"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <DirectoryFilters categories={categories} />
+    </div>
+
+    <div
+      :class="{
+        'grid gap-6': true,
+        'grid-cols-1 md:grid-cols-2 lg:grid-cols-3': viewType === 'grid',
+        'grid-cols-1': viewType === 'list'
+      }"
+    >
+      {tools.map(tool => (
+        <ToolCard tool={tool} viewType="grid" />
+      ))}
+    </div>
+  </div>
+</Layout>
+
+<style>
+  [x-cloak] {
+    display: none !important;
+  }
+</style>

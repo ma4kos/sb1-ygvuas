@@ -1,0 +1,64 @@
+---
+interface Props {
+  tool: {
+    name: string;
+    description: string;
+    rating: number;
+    pricing: string;
+    image?: string;
+    url: string;
+  };
+  viewType: 'grid' | 'list';
+}
+
+const { tool, viewType } = Astro.props;
+
+// Use the provided image or a default placeholder
+const imageUrl = tool.image || '/images/tools/default-tool.svg';
+---
+
+<div class={`bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow ${
+  viewType === 'list' ? 'p-4' : 'p-6'
+}`}>
+  <div class={`flex ${viewType === 'list' ? 'items-center' : 'items-start'}`}>
+    <div class={`bg-gray-100 rounded-lg mr-4 flex-shrink-0 ${
+      viewType === 'list' ? 'w-12 h-12' : 'w-16 h-16'
+    }`}>
+      <img
+        src={imageUrl}
+        alt={tool.name}
+        class="w-full h-full object-cover rounded-lg"
+        loading="lazy"
+      />
+    </div>
+    <div class="flex-1">
+      <div class="flex items-center justify-between mb-2">
+        <h3 class={`font-semibold text-gray-900 ${
+          viewType === 'list' ? 'text-base' : 'text-lg'
+        }`}>
+          {tool.name}
+        </h3>
+        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+          {tool.pricing}
+        </span>
+      </div>
+      <p class={`text-gray-600 ${viewType === 'list' ? 'text-xs' : 'text-sm'} mb-3`}>
+        {tool.description}
+      </p>
+      <div class="flex items-center justify-between">
+        <div class="flex items-center">
+          <span class="text-yellow-400 mr-1">★</span>
+          <span class="text-sm text-gray-600">{tool.rating}</span>
+        </div>
+        <a
+          href={tool.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-indigo-600 hover:text-indigo-800 text-sm font-medium"
+        >
+          Visit Tool →
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

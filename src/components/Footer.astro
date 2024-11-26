@@ -1,0 +1,122 @@
+---
+const currentYear = new Date().getFullYear();
+
+const footerSections = [
+  {
+    title: "Resources",
+    links: [
+      { name: "AI Glossary", href: "/glossary" },
+      { name: "FAQs", href: "/faqs" },
+      { name: "Blog", href: "/blog" },
+      { name: "Tutorials", href: "/tutorials" }
+    ]
+  },
+  {
+    title: "Legal",
+    links: [
+      { name: "Privacy Policy", href: "/privacy" },
+      { name: "Terms & Conditions", href: "/terms" },
+      { name: "Cookie Policy", href: "/cookies" },
+      { name: "Disclaimer", href: "/disclaimer" }
+    ]
+  },
+  {
+    title: "Company",
+    links: [
+      { name: "About Us", href: "/about" },
+      { name: "Contact", href: "/contact" },
+      { name: "Careers", href: "/careers" },
+      { name: "Press Kit", href: "/press" }
+    ]
+  },
+  {
+    title: "Connect",
+    links: [
+      { name: "Twitter", href: "https://twitter.com/aitools" },
+      { name: "LinkedIn", href: "https://linkedin.com/company/aitools" },
+      { name: "GitHub", href: "https://github.com/aitools" },
+      { name: "Discord", href: "https://discord.gg/aitools" }
+    ]
+  }
+];
+---
+
+<footer class="bg-gray-900 text-gray-300">
+  <div class="max-w-6xl mx-auto px-4 py-12">
+    <!-- Main footer content -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+      {footerSections.map((section) => (
+        <div>
+          <h3 class="text-white font-semibold mb-4">{section.title}</h3>
+          <ul class="space-y-2">
+            {section.links.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  class="text-gray-400 hover:text-white transition-colors duration-200"
+                >
+                  {link.name}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+
+    <!-- Newsletter subscription -->
+    <div class="border-t border-gray-800 mt-12 pt-8">
+      <div class="max-w-md">
+        <h3 class="text-white font-semibold mb-4">Stay Updated</h3>
+        <p class="text-gray-400 mb-4">
+          Subscribe to our newsletter for the latest AI tools and updates.
+        </p>
+        <form class="flex gap-2">
+          <input
+            type="email"
+            placeholder="Enter your email"
+            class="flex-1 px-4 py-2 bg-gray-800 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            required
+          />
+          <button
+            type="submit"
+            class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          >
+            Subscribe
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="border-t border-gray-800 mt-8 pt-8">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <p class="text-gray-400 text-sm">
+          © {currentYear} AI Tools Directory. All rights reserved.
+        </p>
+        <div class="flex items-center space-x-4 mt-4 md:mt-0">
+          <a
+            href="/accessibility"
+            class="text-gray-400 hover:text-white text-sm transition-colors duration-200"
+          >
+            Accessibility
+          </a>
+          <span class="text-gray-600">•</span>
+          <a
+            href="/sitemap"
+            class="text-gray-400 hover:text-white text-sm transition-colors duration-200"
+          >
+            Sitemap
+          </a>
+          <span class="text-gray-600">•</span>
+          <a
+            href="/help"
+            class="text-gray-400 hover:text-white text-sm transition-colors duration-200"
+          >
+            Help Center
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,88 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const tools = [
+  {
+    name: "ChatGPT",
+    description: "Advanced language model for natural conversations and content generation",
+    rating: 4.8,
+    pricing: "Free/Premium",
+    image: "/images/tools/chatgpt.png",
+    category: "Language Models"
+  },
+  {
+    name: "DALL-E",
+    description: "Create realistic images and art from natural language descriptions",
+    rating: 4.7,
+    pricing: "Credits",
+    image: "/images/tools/dalle.png",
+    category: "Image Generation"
+  },
+  {
+    name: "GitHub Copilot",
+    description: "AI-powered code completion and suggestions",
+    rating: 4.9,
+    pricing: "Subscription",
+    image: "/images/tools/github-copilot.png",
+    category: "Code Assistance"
+  }
+];
+
+const featuredTools = tools.slice(0, 3);
+---
+
+<Layout title="AI Tools Directory - Home">
+  <div class="bg-gradient-to-b from-indigo-50 to-white">
+    <div class="max-w-6xl mx-auto px-4 py-16">
+      <div class="text-center mb-12">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          Discover the Best AI Tools
+        </h1>
+        <p class="text-xl text-gray-600 mb-8">
+          Explore our curated collection of AI-powered tools and solutions
+        </p>
+        <div class="flex justify-center space-x-4">
+          <a
+            href="/directory"
+            class="px-6 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors"
+          >
+            Browse Directory
+          </a>
+          <a
+            href="/submit-tool"
+            class="px-6 py-3 bg-white text-indigo-600 font-medium rounded-lg border border-indigo-200 hover:border-indigo-300 transition-colors"
+          >
+            Submit Tool
+          </a>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {featuredTools.map(tool => (
+          <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow p-6">
+            <div class="flex items-center mb-4">
+              <img
+                src={tool.image}
+                alt={tool.name}
+                class="w-12 h-12 rounded-lg mr-4"
+                onError="this.src='/images/tools/default-tool.svg'"
+              />
+              <div>
+                <h3 class="font-semibold text-gray-900">{tool.name}</h3>
+                <span class="text-sm text-gray-500">{tool.category}</span>
+              </div>
+            </div>
+            <p class="text-gray-600 text-sm mb-4">{tool.description}</p>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center">
+                <span class="text-yellow-400 mr-1">★</span>
+                <span class="text-sm text-gray-600">{tool.rating}</span>
+              </div>
+              <span class="text-sm text-indigo-600">{tool.pricing}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</Layout>
